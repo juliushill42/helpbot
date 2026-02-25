@@ -1,0 +1,10 @@
+The quick brown fox jumps over the lazy dog.
+Explain how transformers work in simple terms.
+List three use cases for liquid state space models.
+What is the capital of France?
+Write a haiku about the ocean.
+Why do we use temperature in sampling?
+Give me a short summary of the Apollo program.
+Name three programming languages suited for data science.
+Describe the difference between supervised and unsupervised learning.
+How do you compress a large neural network without losing much accuracy?

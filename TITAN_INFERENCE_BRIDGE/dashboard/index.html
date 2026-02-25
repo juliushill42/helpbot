@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TITAN Sovereign Mesh | Enterprise Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
+        
+        body {
+            background: #050505; /* Deep Black Base */
+            font-family: 'Inter', sans-serif;
+            color: #ffffff;
+        }
+
+        /* The "Glass" effect core */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(212, 175, 55, 0.3); /* Subdued Gold Trim */
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
+        }
+
+        /* Gold Gradient Text */
+        .gold-text {
+            background: linear-gradient(to bottom, #D4AF37 0%, #F9E27E 50%, #B8860B 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body class="p-8">
+
+    <header class="max-w-7xl mx-auto flex justify-between items-center mb-12">
+        <div>
+            <h1 class="text-3xl font-light gold-text uppercase tracking-widest">TITAN Sovereign Mesh</h1>
+            <p class="text-xs text-gray-500 mt-1 uppercase tracking-tighter">Autonomous Distillation Protocol v2.1</p>
+        </div>
+        <div class="glass-card px-6 py-2 rounded-full border-gold-500/50">
+            <span class="text-green-500 mr-2 text-xs">●</span> 
+            <span class="text-xs font-semibold uppercase tracking-widest">System Online</span>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+        
+        <section class="glass-card p-8 rounded-2xl relative overflow-hidden">
+            <h2 class="text-gray-400 text-xs font-bold uppercase mb-6 tracking-widest border-b border-white/10 pb-2">Job Queue & Workers</h2>
+            <div class="space-y-6">
+                <div>
+                    <p id="pending-jobs" class="text-3xl font-light">0</p>
+                    <p class="text-[10px] text-gray-500 uppercase">Pending Jobs</p>
+                </div>
+                <div>
+                    <div class="flex justify-between items-end mb-1">
+                        <p class="text-xl font-light"><span id="active-workers">0</span> <span class="text-gray-600 text-sm">/ <span id="max-workers">0</span></span></p>
+                        <p class="text-[10px] text-gold-500" id="capacity-text">0% Capacity</p>
+                    </div>
+                    <div class="w-full bg-white/5 h-1 rounded-full">
+                        <div id="capacity-bar" class="bg-gradient-to-r from-gold-600 to-yellow-200 h-1 rounded-full" style="width: 0%"></div>
+                    </div>
+                    <p class="text-[10px] text-gray-500 uppercase mt-2">Active Multi-Model Workers</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="glass-card p-8 rounded-2xl">
+            <h2 class="text-gray-400 text-xs font-bold uppercase mb-6 tracking-widest border-b border-white/10 pb-2">Resource Telemetry</h2>
+            <div class="flex justify-around mb-8">
+                <div class="text-center">
+                    <div class="w-20 h-20 rounded-full border-4 border-white/5 flex items-center justify-center relative">
+                        <svg class="absolute inset-0 w-full h-full transform -rotate-90">
+                            <circle cx="40" cy="40" r="36" stroke="#D4AF37" stroke-width="4" fill="transparent" stroke-dasharray="226" stroke-dashoffset="50" />
+                        </svg>
+                        <span class="text-lg font-light">78%</span>
+                    </div>
+                    <p class="text-[10px] text-gray-500 uppercase mt-2">GPU Load</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-20 h-20 rounded-full border-4 border-white/5 flex items-center justify-center relative">
+                        <svg class="absolute inset-0 w-full h-full transform -rotate-90">
+                            <circle cx="40" cy="40" r="36" stroke="#D4AF37" stroke-width="4" fill="transparent" stroke-dasharray="226" stroke-dashoffset="180" />
+                        </svg>
+                        <span class="text-lg font-light">22%</span>
+                    </div>
+                    <p class="text-[10px] text-gray-500 uppercase mt-2">ANE Utilization</p>
+                </div>
+            </div>
+            <div class="text-center border-t border-white/5 pt-4">
+                <p class="text-2xl font-light italic">1,245 <span class="text-xs not-italic text-gray-500">t/s</span></p>
+                <p class="text-[10px] text-gray-500 uppercase">Aggregated Throughput</p>
+            </div>
+        </section>
+
+        <section class="glass-card p-8 rounded-2xl">
+            <h2 class="text-gray-400 text-xs font-bold uppercase mb-6 tracking-widest border-b border-white/10 pb-2">Intelligence Validation</h2>
+            <div class="space-y-4">
+                <div class="bg-white/5 p-4 rounded-lg border border-white/10">
+                    <p class="text-[10px] text-gray-500 uppercase">Current Distillation</p>
+                    <p class="text-sm font-semibold text-gold-200">minimax-80b-v2.1</p>
+                </div>
+                <div class="flex justify-between items-center py-2">
+                    <span class="text-[10px] text-gray-500 uppercase">Similarity Score</span>
+                    <span id="similarity-score" class="text-xl font-light text-green-400">--</span>
+                </div>
+                <div class="flex justify-between items-center py-2 border-t border-white/5">
+                    <span class="text-[10px] text-gray-500 uppercase">Validation Status</span>
+                    <span id="validation-status" class="px-3 py-1 bg-green-900/30 text-green-400 text-[10px] rounded-full border border-green-500/30">PENDING</span>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="max-w-7xl mx-auto mt-8">
+        <div class="glass-card p-4 rounded-lg border-white/5 bg-black/40">
+            <div class="flex space-x-2 mb-2">
+                <div class="w-2 h-2 rounded-full bg-red-500"></div>
+                <div class="w-2 h-2 rounded-full bg-yellow-500"></div>
+                <div class="w-2 h-2 rounded-full bg-green-500"></div>
+            </div>
+            <div class="font-mono text-[10px] text-gray-400 leading-relaxed">
+                <p><span class="text-gray-600">[04:02:18]</span> <span class="text-gold-500">MESH:</span> Node 0x7F4B initialized successfully.</p>
+                <p><span class="text-gray-600">[04:02:45]</span> <span class="text-blue-400">DISTILLER:</span> Starting autonomous extraction for <span class="text-white">llamax-80b</span>...</p>
+                <p><span class="text-gray-600">[04:05:12]</span> <span class="text-green-500">VALIDATOR:</span> Logit similarity for student-v2 confirmed at 0.923.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        async function fetchMetrics() {
+            try {
+                const resp = await fetch('http://localhost:8000/metrics');
+                if (!resp.ok) throw new Error('metrics fetch failed');
+                const data = await resp.json();
+                const pending = data.queue_length ?? 0;
+                const active = data.active_workers ?? 0;
+                const maxp = data.max_parallel ?? 0;
+                document.getElementById('pending-jobs').textContent = pending;
+                document.getElementById('active-workers').textContent = active;
+                document.getElementById('max-workers').textContent = maxp;
+                const cap = maxp > 0 ? Math.round((active / maxp) * 100) : 0;
+                document.getElementById('capacity-text').textContent = `${cap}% Capacity`;
+                document.getElementById('capacity-bar').style.width = `${cap}%`;
+
+                if (data.processed && data.processed.length > 0) {
+                    const last = data.processed[data.processed.length - 1];
+                    const sim = last.similarity != null ? (last.similarity * 100).toFixed(1) + '%' : '--';
+                    document.getElementById('similarity-score').textContent = sim;
+                    const statusEl = document.getElementById('validation-status');
+                    if (last.status === 'complete') {
+                        statusEl.textContent = 'PASSED';
+                        statusEl.className = "px-3 py-1 bg-green-900/30 text-green-400 text-[10px] rounded-full border border-green-500/30";
+                    } else if (last.status === 'failed') {
+                        statusEl.textContent = 'FAILED';
+                        statusEl.className = "px-3 py-1 bg-red-900/30 text-red-400 text-[10px] rounded-full border border-red-500/30";
+                    } else {
+                        statusEl.textContent = 'PENDING';
+                        statusEl.className = "px-3 py-1 bg-yellow-900/30 text-yellow-300 text-[10px] rounded-full border border-yellow-500/30";
+                    }
+                }
+            } catch (e) {
+                console.warn('metrics update failed', e);
+            }
+        }
+        fetchMetrics();
+        setInterval(fetchMetrics, 5000);
+    </script>
+</body>
+</html>

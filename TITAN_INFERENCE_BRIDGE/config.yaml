@@ -1,0 +1,10 @@
+model:
+  # Path to your GGUF (CPU quant). Update if you move the file.
+  path: ../TITAN_BIT_PACKER/MiniMax-M2.1.q2_k.gguf
+  ctx: 2048
+  threads: 16
+  batch: 256
+
+socket:
+  # Unix domain socket endpoint for control-plane RPCs.
+  path: /tmp/titan_infer.sock

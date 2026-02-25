@@ -1,0 +1,7 @@
+compression:
+  method: "bitnet_b158"
+  target_precision: "ternary"
+  alignment: 4
+mobile_optimization:
+  simd_unroll: true
+  npu_bypass: true

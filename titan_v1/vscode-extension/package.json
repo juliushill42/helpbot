@@ -1,0 +1,40 @@
+{
+  "name": "titan-orchestrator",
+  "displayName": "Titan Orchestrator",
+  "description": "Human-in-the-loop approval system for Titan AI",
+  "version": "0.1.0",
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "activationEvents": [
+    "onCommand:titan.sync",
+    "onCommand:titan.approve",
+    "onCommand:titan.viewQueue"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "titan.sync",
+        "title": "Titan: Connect to Core"
+      },
+      {
+        "command": "titan.approve",
+        "title": "Titan: Approve Pending Actions"
+      },
+      {
+        "command": "titan.viewQueue",
+        "title": "Titan: View Approval Queue"
+      }
+    ]
+  },
+  "scripts": {
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/vscode": "^1.80.0",
+    "typescript": "^5.0.0"
+  }
+}

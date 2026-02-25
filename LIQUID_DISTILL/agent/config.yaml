@@ -1,0 +1,26 @@
+# Agent Configuration
+max_parallel_jobs: 3
+dataset_path: "data/prompts.txt"
+
+# Student model hyperparameters
+student_dim: 256
+learning_rate: 0.001
+training_steps: 10000
+vocab_size: 32000
+
+# Resource limits
+max_ram_gb: 32
+max_cpu_threads: 16
+per_job_ram_gb: 8
+
+# Output settings
+output_base_dir: "outputs"
+keep_intermediates: false
+
+# Validation
+validation_threshold: 0.85
+validation_tokens: 4
+
+# Webhook
+webhook_url: "https://your-endpoint.com/webhook"
+webhook_secret: "YOUR_SECRET"

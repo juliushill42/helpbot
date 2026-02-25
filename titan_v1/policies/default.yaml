@@ -1,0 +1,167 @@
+# Titan Production Security Policy
+# Version: 1.0
+
+risk_thresholds:
+  auto_approve: 0.3      # Risk scores below this are auto-approved
+  require_approval: 0.6  # Risk scores above this require user approval
+  auto_deny: 0.9         # Risk scores above this are automatically denied
+
+rate_limits:
+  operations_per_minute: 60
+  deletes_per_hour: 10
+  network_requests_per_hour: 100
+
+rules:
+  # Rule 1: Block all system path access (highest priority)
+  - name: "Block System Paths"
+    priority: 100
+    conditions:
+      path_patterns:
+        - "^/System/.*"
+        - "^/usr/bin/.*"
+        - "^/usr/sbin/.*"
+        - "^/bin/.*"
+        - "^/sbin/.*"
+        - "^/etc/.*"
+        - "^/var/root/.*"
+        - "^/root/.*"
+        - "^/Library/System/.*"
+        - "^/private/etc/.*"
+    action: Deny
+
+  # Rule 2: Block recursive deletes (very high priority)
+  - name: "Block Recursive Deletes"
+    priority: 90
+    conditions:
+      intents:
+        - "FileDelete"
+      command_patterns:
+        - "rm\\s+-[^\\s]*r"
+        - "rm\\s+-rf"
+        - "rmdir\\s+-r"
+    action: Deny
+
+  # Rule 3: Allow workspace reads (high priority)
+  - name: "Allow Workspace Reads"
+    priority: 80
+    conditions:
+      intents:
+        - "FileRead"
+      path_patterns:
+        - ".*workspace.*"
+        - ".*src/.*"
+        - ".*docs?/.*"
+      max_risk_score: 0.4
+    action: Allow
+
+  # Rule 4: Require approval for all write operations
+  - name: "Approve Writes"
+    priority: 70
+    conditions:
+      intents:
+        - "FileWrite"
+      min_risk_score: 0.3
+    action: RequireApproval
+
+  # Rule 5: Require approval for all delete operations
+  - name: "Approve Deletes"
+    priority: 70
+    conditions:
+      intents:
+        - "FileDelete"
+      min_risk_score: 0.3
+    action: RequireApproval
+
+  # Rule 6: Log all network access
+  - name: "Log Network Access"
+    priority: 60
+    conditions:
+      intents:
+        - "NetworkAccess"
+    action: Log
+
+  # Rule 7: Require approval for network during business hours
+  - name: "Approve Network During Business Hours"
+    priority: 65
+    conditions:
+      intents:
+        - "NetworkAccess"
+      business_hours_only: true
+      min_risk_score: 0.5
+    action: RequireApproval
+
+  # Rule 8: Block high-risk operations outside business hours
+  - name: "Block High Risk Outside Business Hours"
+    priority: 85
+    conditions:
+      min_risk_score: 0.7
+      business_hours_only: false
+    action: Deny
+
+  # Rule 9: Require approval for process execution
+  - name: "Approve Process Execution"
+    priority: 75
+    conditions:
+      intents:
+        - "ProcessExecute"
+      min_risk_score: 0.4
+    action: RequireApproval
+
+  # Rule 10: Require approval for package installations
+  - name: "Approve Package Installs"
+    priority: 75
+    conditions:
+      intents:
+        - "PackageInstall"
+    action: RequireApproval
+
+  # Rule 11: Block system configuration changes
+  - name: "Block System Config Changes"
+    priority: 95
+    conditions:
+      intents:
+        - "SystemConfig"
+      min_risk_score: 0.6
+    action: Deny
+
+  # Rule 12: Allow low-confidence operations with approval
+  - name: "Approve Low Confidence"
+    priority: 50
+    conditions:
+      max_confidence: 0.5
+    action: RequireApproval
+
+  # Rule 13: Log all unknown intents
+  - name: "Log Unknown Intents"
+    priority: 40
+    conditions:
+      intents:
+        - "Unknown"
+    action: Log
+
+  # Rule 14: Block operations on sensitive files
+  - name: "Block Sensitive Files"
+    priority: 98
+    conditions:
+      path_patterns:
+        - ".*\\.ssh/.*"
+        - ".*\\.aws/.*"
+        - ".*\\.config/.*credentials.*"
+        - ".*\\.env$"
+        - ".*id_rsa.*"
+        - ".*\\.key$"
+        - ".*\\.pem$"
+      intents:
+        - "FileWrite"
+        - "FileDelete"
+    action: Deny
+
+  # Rule 15: Allow safe read operations with high confidence
+  - name: "Allow Safe Reads"
+    priority: 30
+    conditions:
+      intents:
+        - "FileRead"
+      max_risk_score: 0.2
+      min_confidence: 0.8
+    action: Allow

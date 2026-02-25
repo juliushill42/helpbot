@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TITAN Control Interface</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Monaco', 'Courier New', monospace;
+            background: #0a0e27;
+            color: #00ff88;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+            color: #00ff88;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px #00ff88;
+        }
+        .subtitle {
+            text-align: center;
+            color: #888;
+            margin-bottom: 30px;
+        }
+        .terminal {
+            background: #000;
+            border: 2px solid #00ff88;
+            border-radius: 8px;
+            padding: 20px;
+            min-height: 400px;
+            margin-bottom: 20px;
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+        }
+        .log-entry {
+            margin-bottom: 15px;
+            padding: 10px;
+            border-left: 3px solid #00ff88;
+            background: rgba(0, 255, 136, 0.05);
+        }
+        .input-section {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        input {
+            flex: 1;
+            background: #000;
+            border: 2px solid #00ff88;
+            color: #00ff88;
+            padding: 15px;
+            font-family: inherit;
+            font-size: 16px;
+            border-radius: 4px;
+        }
+        button {
+            background: #00ff88;
+            color: #000;
+            border: none;
+            padding: 15px 30px;
+            font-family: inherit;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+        button:hover {
+            background: #00cc6a;
+            box-shadow: 0 0 15px #00ff88;
+        }
+        .status {
+            text-align: center;
+            padding: 10px;
+            background: rgba(0, 255, 136, 0.1);
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>⚡ TITAN ORCHESTRATION SYSTEM ⚡</h1>
+        <p class="subtitle">Stateful Control Loop with Memory | Pioneer Edition</p>
+        
+        <div class="status" id="status">
+            STATUS: AWAITING CONNECTION TO RUST BACKEND
+        </div>
+
+        <div class="terminal" id="terminal">
+            <div class="log-entry">
+                <strong>SYSTEM INITIALIZATION</strong><br>
+                → Memory spine: ONLINE<br>
+                → Event bus: ACTIVE<br>
+                → Logic units: STANDBY<br>
+                → Human-in-the-loop: READY
+            </div>
+        </div>
+
+        <div class="input-section">
+            <input 
+                type="text" 
+                id="commandInput" 
+                placeholder="Enter instruction for TITAN..."
+                onkeypress="if(event.key==='Enter') sendCommand()"
+            />
+            <button onclick="sendCommand()">EXECUTE</button>
+        </div>
+    </div>
+
+    <script>
+        function addLog(message) {
+            const terminal = document.getElementById('terminal');
+            const entry = document.createElement('div');
+            entry.className = 'log-entry';
+            entry.innerHTML = message;
+            terminal.appendChild(entry);
+            terminal.scrollTop = terminal.scrollHeight;
+        }
+
+        function sendCommand() {
+            const input = document.getElementById('commandInput');
+            const command = input.value.trim();
+            
+            if (!command) return;
+            
+            addLog(`<strong>INPUT:</strong> ${command}<br><strong>PROCESSING...</strong>`);
+            
+            // Simulate processing (replace with actual backend call)
+            setTimeout(() => {
+                addLog(`<strong>TITAN_LOGIC:</strong> Processed instruction '${command}'. Ready for execution.<br><strong>STATUS:</strong> Awaiting approval...`);
+            }, 500);
+            
+            input.value = '';
+        }
+
+        // Update status on load
+        window.addEventListener('load', () => {
+            document.getElementById('status').textContent = 'STATUS: SYSTEM READY | CONTROL LOOP ACTIVE';
+        });
+    </script>
+</body>
+</html>

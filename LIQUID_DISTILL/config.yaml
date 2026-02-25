@@ -1,0 +1,8 @@
+model:
+  path: ../TITAN_BIT_PACKER/MiniMax-M2.1.q2_k.gguf
+  ctx: 256
+  threads: 16
+  batch: 128
+
+socket:
+  path: /tmp/liquid_teacher.sock

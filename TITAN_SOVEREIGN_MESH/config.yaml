@@ -1,0 +1,19 @@
+node:
+  id: node-001
+  socket: /tmp/titan_mesh.sock
+  local_only: true
+
+model:
+  name: minimax-80b
+  context_limit: 2048
+
+governance:
+  default_action: deny
+  max_tokens: 2048
+  roles:
+    - analyst
+    - operator
+    - admin
+
+mesh:
+  quorum: 1

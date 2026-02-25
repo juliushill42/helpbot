@@ -1,0 +1,12 @@
+models:
+  - name: "minimax-80b"
+    path: "/models/MiniMax-M2.1.q2_k.gguf"
+    priority: 1
+
+  - name: "llama3-70b"
+    path: "/models/llama3-70b.gguf"
+    priority: 2
+
+  - name: "mixtral-8x7b"
+    path: "/models/mixtral.gguf"
+    priority: 3
